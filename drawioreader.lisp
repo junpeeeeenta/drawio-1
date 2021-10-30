@@ -16,7 +16,7 @@
 (in-package :dio)
 
 (defstruct drawio xml-prolog mxfile diagram mxGraphModel root-body)
-(defstruct mxfile host modified agent etag compressed version type diagram)
+(defstruct mxfile host modified agent etag compressed version type diagram pages)
 (defstruct diagram id name mxGraphModel)
 (defstruct mxGraphModel dx dy grid gridSize guides tooltips connect arrows fold page pageScale pageWidth pageHeight math shadow root)
 (defstruct mxCell id value style align verticalAlign resizable points edge parent connectable vertex source target geometry)
@@ -302,7 +302,10 @@
                      (:|version| (read-Eq stream)
                                (setf (mxfile-version mxfile-obj) (line:read-string stream)))
                      (:|type| (read-Eq stream)
-                            (setf (mxfile-type mxfile-obj) (line:read-string stream)))))
+                            (setf (mxfile-type mxfile-obj) (line:read-string stream)))
+                    (:|pages| (read-Eq stream)
+                            (setf (mxfile-pages mxfile-obj) (line:read-string stream)))))
+                    
              (read-char stream)   ; discard '>'
              (setf (mxfile-diagram mxfile-obj) (read-diagram stream))
              mxfile-obj))
